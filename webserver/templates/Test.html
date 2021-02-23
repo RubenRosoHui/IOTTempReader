@@ -1,0 +1,67 @@
+<html>
+  <head>
+   <title></title>
+   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <!--<script type=text/javascript>
+    $(function() {
+        function get_sensor(){
+            $.getJSON('/sensorread/data', 
+            function(data){ 
+                $('#result1').text(parseFloat(data.hum).toFixed(1)); 
+                $('#result2').text(parseFloat(data.temp).toFixed(1))
+            })
+            return false;     
+        };
+        setInterval(function() {
+            get_sensor();
+        }, 5000);
+    });
+  </script>-->
+  <link rel="stylesheet" href="http://192.168.2.86:8080/static/css/sensor.css">
+  
+  </head>
+
+  <body>  
+    
+    <div class="center">
+        <p>The sensor is currently [Offline]</p>
+    <div class="wrap">
+        <div class="left" id="temp"><p>Temperature: 24.9C</p></div>
+        <div clas="right" id="hum"><p>Humidity: 73.8%</p></div>
+    </div>
+    </div>
+    <button onclick="shTemp()" id="bTemp"class="myButton">Hide/Show 1</button>
+    <button onclick="shHum()" id="bHum" class="myButton">Hide/Show 2</button>
+    <script>
+        function shTemp() 
+        {
+            var x = document.getElementById("temp");
+            var b = document.getElementById("bTemp");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                b.childNodes[0].nodeValue="Turn On Temperature";     
+            }
+            else{
+                x.style.display = "block";
+                b.childNodes[0].nodeValue="Turn Off Temperature";
+            }
+        }
+    </script>
+    <script>
+        function shHum() 
+        {
+            var x = document.getElementById("hum");
+            var b = document.getElementById("bHum");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                b.childNodes[0].nodeValue="Turn On Humidity";
+            }
+            else {
+                x.style.display = "block";
+                b.childNodes[0].nodeValue="Turn Off Humidity";
+            }
+        }
+    </script>
+</body>
+
+</html>

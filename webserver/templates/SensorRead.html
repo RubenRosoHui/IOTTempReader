@@ -1,0 +1,85 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sensor Display Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% if State %}
+    <!--<meta http-equiv="refresh" content="5">-->
+        <script type="text/javascript">
+            function get_sensor(){
+                $.getJSON('/sensorread/data', 
+                function(data){ 
+                    $('#hum span').text(parseFloat(data.hum).toFixed(1)); 
+                    $('#temp span').text(parseFloat(data.temp).toFixed(1))
+                })
+                return false;     
+            };
+        $(function() {
+            get_sensor();
+            setInterval(function() {
+                get_sensor();
+            }, 5000);
+        });</script>
+    {% endif %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="http://192.168.2.86:8080/static/css/sensor.css">
+</head>
+<body>
+    <h1>Environmental Monitoring System</h1>
+    <h1>Sensor Display</h1>
+    {% if State %}
+        <p class="center">The sensor is currently [Online]</p>
+        <div class="center">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="center">
+        <button onclick="shTemp()" id="bTemp" class="myButton">Turn On Temperature</button>
+        <button onclick="shHum()" id="bHum" class="myButton">Turn On Humidity</button>
+        </div>
+        <br/>
+    
+    {% else %}
+    <p class="center">The sensor is currently [Offline]</p>
+    {% endif %}
+    <div class="center">
+    {% if State %}
+        <a href="Off"><button class="myButton">Turn Sensor Off</button></a>
+    {% else %}
+        <a href="On"><button class="myButton">Turn Sensor On</button></a>
+    {% endif %}
+    <a href="/downloads/SensorReading.txt"><button class="myButton">Download Sensor Logs</button></a>
+    </div>
+    <script>
+        function shTemp() 
+        {
+            var x = document.getElementById("temp");
+            var b = document.getElementById("bTemp");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                b.childNodes[0].nodeValue="Turn On Temperature";     
+            }
+            else{
+                x.style.display = "block";
+                b.childNodes[0].nodeValue="Turn Off Temperature";
+            }
+        }
+    </script>
+    <script>
+        function shHum() 
+        {
+            var x = document.getElementById("hum");
+            var b = document.getElementById("bHum");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                b.childNodes[0].nodeValue="Turn On Humidity";
+            }
+            else {
+                x.style.display = "block";
+                b.childNodes[0].nodeValue="Turn Off Humidity";
+            }
+        }
+    </script>
+
+</body>
+</html>
